@@ -6,16 +6,15 @@
     <title>Really Simple CRM</title>
   </head>
   <body>
-    <h1>InvestNext</h1>
+    <h1>Really Simple CRM</h1>
     <h4>Contact List</h4>
     <ul>
       {% for contact in contacts %}
       <li>
-        <div>First Name: {{ contact.first_name }}</div>
-        <div>Last Name: {{ contact.last_name }}</div>
-        <div>Email: {{ contact.email }}</div>
+        <a href="/contacts/{{ contact.pk}}">
+          <div>{{ contact.first_name }} {{ contact.last_name }}</div>
+        </a>
       </li>
-      <br />
       {% endfor %}
     </ul>
   </body>

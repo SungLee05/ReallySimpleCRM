@@ -12,4 +12,8 @@ def contact_list(request):
 
 def contact_detail(request, pk):
   contact = Contact.objects.get(id=pk)
-  return HttpResponse('here is the detail view')
+  context = {
+    "contact": contact
+  }
+  return render(request, "contact_detail.html", context )
+
