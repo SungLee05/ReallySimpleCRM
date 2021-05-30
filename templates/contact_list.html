@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Really Simple CRM</title>
+  </head>
+  <body>
+    <h1>InvestNext</h1>
+    <h4>Contact List</h4>
+    <ul>
+      {% for contact in contacts %}
+      <li>
+        <div>First Name: {{ contact.first_name }}</div>
+        <div>Last Name: {{ contact.last_name }}</div>
+        <div>Email: {{ contact.email }}</div>
+      </li>
+      <br />
+      {% endfor %}
+    </ul>
+  </body>
+</html>
