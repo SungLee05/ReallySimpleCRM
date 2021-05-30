@@ -6,11 +6,15 @@
   </head>
   <body>
     <h1>Really Simple CRM</h1>
-    <h4>Contact Detail</h4>
-    <div>Name: {{ contact.first_name }} {{ contact.last_name }}</div>
-    <div>Email: {{ contact.email }}</div>
-    <div>Manager: {{ contact.user }}</div>
+    <h4>Create A New Contact</h4>
     <br />
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Submit</button>
+    </form>
     <a href="/contacts">Back To Contact List</a>
   </body>
 </html>
+
+{% comment %} csrf token always required whenever post method is called on forms
+{% endcomment %}
