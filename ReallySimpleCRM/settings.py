@@ -125,3 +125,6 @@ STATICFILES_DIRS = [
 STATIC_ROOT = "static_root"
 
 AUTH_USER_MODEL = 'contacts.User'
+LOGIN_REDIRECT_URL = '/contacts'
+LOGIN_URL = "/login"
+LOGOUT_REDIRECT_URL = '/login'

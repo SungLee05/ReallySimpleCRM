@@ -1,5 +1,9 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm, UsernameField
+from django.contrib.auth import get_user_model
 from .models import Contact
+
+User = get_user_model()
 
 class ContactModelForm(forms.ModelForm):
   class Meta:
@@ -14,9 +18,7 @@ class ContactModelForm(forms.ModelForm):
         'state',
         'zipcode',
         'profile_photo',
-        'user'
     )
-
 
 
 class ContactForm(forms.Form):
@@ -29,3 +31,10 @@ class ContactForm(forms.Form):
   state = forms.CharField(required=False, max_length=20)
   zipcode = forms.IntegerField(required=False)
   profile_photo = forms.ImageField(required=False)
+
+
+class CustomUserCreationForm(UserCreationForm):
+  class Meta:
+    model = User
+    fields = ('username',)
+    field_classes = {'username': UsernameField}

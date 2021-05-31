@@ -1,19 +1,30 @@
 <nav class="navbar navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'landing-page'%}">Really Simple CRM</a>
+    <a class="navbar-brand" href="{% url 'landing-page' %}"
+      >Really Simple CRM</a
+    >
 
     <ul class="nav justify-content-end">
+      {% if request.user.is_authenticated %}
+      <li class="nav-item">
+        <div class="nav-link mr-2">Logged in as: {{ user }}</div>
+      </li>
       <li class="nav-item">
         <a class="nav-link active mr-2" href="{% url 'contacts:contact-list'%}"
           >Contacts</a
         >
       </li>
       <li class="nav-item">
-        <a class="nav-link active mr-2" href="#">Sign Up</a>
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link active mr-2" href="{% url 'signup' %}">Sign Up</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Login</a>
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
       </li>
+      {% endif %}
     </ul>
   </div>
 </nav>
