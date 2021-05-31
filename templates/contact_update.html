@@ -1,0 +1,12 @@
+{% extends "main.html"%} {% block content %}
+
+<h1>Contact Update</h1>
+<h5>{{ contact.first_name}} {{ contact.last_name}}</h5>
+<form method="POST">
+  {% csrf_token %} {{form.as_p}}
+  <button type="submit">Submit</button>
+</form>
+<a href="{% url 'contacts:contact-detail' contact.pk %}"
+  >Back To Contact Detail</a
+>
+{% endblock content%}

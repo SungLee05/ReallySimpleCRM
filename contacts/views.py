@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from .models import Contact, User
 from .forms import ContactForm, ContactModelForm
 
+def landing_page(request):
+  return render(request, "landing_page.html")
 
 def contact_list(request):
   contacts = Contact.objects.all()
@@ -25,19 +27,7 @@ def contact_create(request):
     print('Receiving a post request')
     form = ContactModelForm(request.POST)
     if form.is_valid():
-      print('The form is valid')
-      print(form.cleaned_data)
-      first_name = form.cleaned_data['first_name']
-      last_name = form.cleaned_data['last_name']
-      email = form.cleaned_data['email']
-      user = form.cleaned_data['user']
-      Contact.objects.create(
-        first_name=first_name,
-        last_name=last_name,
-        email=email,
-        user=user
-      )
-      print('contact has been created')
+      form.save()
       return redirect('/contacts')
 
   context = {
@@ -46,30 +36,21 @@ def contact_create(request):
 
   return render(request, "contact_create.html", context )
 
-# def contact_create(request):
-#   form = ContactForm()
+def contact_update(request, pk):
+  contact = Contact.objects.get(id=pk)
+  form = ContactModelForm(instance=contact)
+  if request.method == "POST":
+      form = ContactModelForm(request.POST, instance=contact)
+      if form.is_valid():
+          form.save()
+          return redirect('/contacts')
+  context = {
+    "contact": contact,
+    "form": form
+  }
+  return render(request, "contact_update.html", context)
 
-#   if request.method == "POST":
-#     print('Receiving a post request')
-#     form = ContactModelForm(request.POST)
-#     if form.is_valid():
-#       print('The form is valid')
-#       print(form.cleaned_data)
-#       first_name = form.cleaned_data['first_name']
-#       last_name = form.cleaned_data['last_name']
-#       email = form.cleaned_data['email']
-#       user = User.objects.first()
-#       Contact.objects.create(
-#         first_name=first_name,
-#         last_name=last_name,
-#         email=email,
-#         user=user
-#       )
-#       print('contact has been created')
-#       return redirect('/contacts')
-
-#   context = {
-#     "form": ContactForm()
-#   }
-
-#   return render(request, "contact_create.html", context )
+def contact_delete(request, pk):
+  contact = Contact.objects.get(id=pk)
+  contact.delete()
+  return redirect('/contacts')

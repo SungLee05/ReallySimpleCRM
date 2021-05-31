@@ -1,20 +1,13 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Really Simple CRM</title>
-  </head>
-  <body>
-    <h1>Really Simple CRM</h1>
-    <h4>Create A New Contact</h4>
-    <br />
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <button type="submit">Submit</button>
-    </form>
-    <a href="/contacts">Back To Contact List</a>
-  </body>
-</html>
+{% extends "main.html"%} {% block content %}
 
-{% comment %} csrf token always required whenever post method is called on forms
-{% endcomment %}
+<h1>Really Simple CRM</h1>
+<h4>Create A New Contact</h4>
+<br />
+<form method="post">
+  {% csrf_token %} {{ form.as_p }} {% comment %} csrf token always required
+  whenever post method is called on forms {% endcomment %}
+  <button type="submit">Submit</button>
+</form>
+<a href="{% url 'contacts:contact-list' %}">Back To Contact List</a>
+
+{% endblock content%}
