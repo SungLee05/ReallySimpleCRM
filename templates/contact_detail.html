@@ -1,13 +1,24 @@
-{% extends "main.html"%} {% block content %}
+{% extends "main.html"%} {% block content %} {% load static %}
 
 <h4>Contact Detail</h4>
-<div>Name: {{ contact.first_name }} {{ contact.last_name }}</div>
-<div>Email: {{ contact.email }}</div>
-<div>Manager: {{ contact.user }}</div>
+<div class="card" style="width: 18rem;">
+        <img
+        src="{% static 'images/default-profile-photo.jpeg' %}"
+        class="card-img-top"
+        alt="profile-photo"
+        style="width: 100%"
+      />
+  <div class="card-body">
+    <h5 class="card-title">{{ contact.first_name }} {{ contact.last_name }}</h5>
+    <p class="card-text"><div>Email: {{ contact.email }}</div>
+<div>Manager: {{ contact.user }}</div></p>
+
+    <a href="{% url 'contacts:contact-update' contact.pk %}" class="btn btn-primary">Update</a>
+<a href="{% url 'contacts:contact-delete' contact.pk %}" class="btn btn-primary">Delete</a>
 <br />
-<a href="{% url 'contacts:contact-update' contact.pk %}">Update</a>
-<a href="{% url 'contacts:contact-delete' contact.pk %}">Delete</a>
-<br />
+
+  </div>
+</div>
 <a href="{% url 'contacts:contact-list'%}">Back To Contact List</a>
 
 {% endblock content%}

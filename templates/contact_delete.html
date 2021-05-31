@@ -1,11 +1,11 @@
 {% extends "main.html"%} {% block content %}
 
-<h1>Contact Update</h1>
+<h1>Contact Delete</h1>
 
-<h5>{{ contact.first_name}} {{ contact.last_name}}</h5>
-<form method="POST" class="row g-3">
+<h5>Are you sure you want to permanently delete this contact information?</h5>
+<form method="POST">
   {% csrf_token %} {{form.as_p}}
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">Confirm</button>
 </form>
 
 <a href="{% url 'contacts:contact-detail' contact.pk %}"

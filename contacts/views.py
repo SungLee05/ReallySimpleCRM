@@ -1,56 +1,38 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
+from django.views import generic
 from .models import Contact, User
 from .forms import ContactForm, ContactModelForm
 
-def landing_page(request):
-  return render(request, "landing_page.html")
+class LandingPageView(generic.TemplateView):
+  template_name = "landing_page.html"
 
-def contact_list(request):
-  contacts = Contact.objects.all()
-  context = {
-    "contacts": contacts
-  }
-  return render(request, "contact_list.html", context )
+class ContactListView(generic.ListView):
+  template_name = "contact_list.html"
+  queryset = Contact.objects.all()
+  context_object_name = 'contacts'
 
-def contact_detail(request, pk):
-  contact = Contact.objects.get(id=pk)
-  context = {
-    "contact": contact
-  }
-  return render(request, "contact_detail.html", context )
+class ContactDetailView(generic.DetailView):
+  template_name = "contact_detail.html"
+  queryset = Contact.objects.all()
+  context_object_name = 'contact'
 
-def contact_create(request):
-  form = ContactModelForm()
+class ContactCreateView(generic.CreateView):
+  template_name = "contact_create.html"
+  form_class = ContactModelForm
+  def get_success_url(self):
+    return reverse("contacts:contact-list")
 
-  if request.method == "POST":
-    print('Receiving a post request')
-    form = ContactModelForm(request.POST)
-    if form.is_valid():
-      form.save()
-      return redirect('/contacts')
+class ContactUpdateView(generic.UpdateView):
+  template_name = "contact_update.html"
+  queryset = Contact.objects.all()
+  form_class = ContactModelForm
+  def get_success_url(self):
+    return reverse("contacts:contact-list")
 
-  context = {
-    "form": ContactModelForm()
-  }
-
-  return render(request, "contact_create.html", context )
-
-def contact_update(request, pk):
-  contact = Contact.objects.get(id=pk)
-  form = ContactModelForm(instance=contact)
-  if request.method == "POST":
-      form = ContactModelForm(request.POST, instance=contact)
-      if form.is_valid():
-          form.save()
-          return redirect('/contacts')
-  context = {
-    "contact": contact,
-    "form": form
-  }
-  return render(request, "contact_update.html", context)
-
-def contact_delete(request, pk):
-  contact = Contact.objects.get(id=pk)
-  contact.delete()
-  return redirect('/contacts')
+class ContactDeleteView(generic.DeleteView):
+  template_name = "contact_delete.html"
+  queryset = Contact.objects.all()
+  form_class = ContactModelForm
+  def get_success_url(self):
+    return reverse("contacts:contact-list")

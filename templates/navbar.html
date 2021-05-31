@@ -1,11 +1,17 @@
 <nav class="navbar navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Really Simple CRM</a>
-    <ul class="navbar-nav mb-lg-0" style="flex-direction: row">
-      <li class="nav-item" style="margin: 0.5rem">
+    <a class="navbar-brand" href="{% url 'landing-page'%}">Really Simple CRM</a>
+
+    <ul class="nav justify-content-end">
+      <li class="nav-item">
+        <a class="nav-link active mr-2" href="{% url 'contacts:contact-list'%}"
+          >Contacts</a
+        >
+      </li>
+      <li class="nav-item">
         <a class="nav-link active mr-2" href="#">Sign Up</a>
       </li>
-      <li class="nav-item" style="margin: 0.5rem">
+      <li class="nav-item">
         <a class="nav-link" href="#">Login</a>
       </li>
     </ul>

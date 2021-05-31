@@ -1,13 +1,40 @@
-{% extends "main.html"%} {% block content %}
-<h4>Contact List</h4>
-<a href="{% url 'contacts:contact-create' %}">Create a new contact</a>
-<ul>
+{% extends "main.html"%} {% block content %} {% load static %}
+<div
+  class="row w-full mb-6 py-6 flex justify-between items-center border-b border-gray-2"
+>
+  <div>
+    <h4>Contact List</h4>
+  </div>
+  <div>
+    <a href="{% url 'contacts:contact-create' %}">Create a new contact</a>
+  </div>
+</div>
+<div class="row row-cols-2 row-cols-md-4 g-1">
   {% for contact in contacts %}
-  <li>
-    <a href="{% url 'contacts:contact-detail' contact.pk %}">
-      <div>{{ contact.first_name }} {{ contact.last_name }}</div>
-    </a>
-  </li>
+
+  <div class="col">
+    <div class="card">
+      <img
+        src="{% static 'images/default-profile-photo.jpeg' %}"
+        class="card-img-top"
+        alt="profile-photo"
+        style="width: 100%"
+      />
+      <div class="card-body">
+        <h5 class="card-title">
+          <a href="{% url 'contacts:contact-detail' contact.pk %}">
+            <div>{{ contact.first_name }} {{ contact.last_name }}</div>
+          </a>
+        </h5>
+        <p class="card-text">
+          This is a longer card with supporting text below as a natural lead-in
+          to additional content. This content is a little bit longer.
+        </p>
+      </div>
+    </div>
+  </div>
+
   {% endfor %}
-</ul>
+</div>
+
 {% endblock content%}
