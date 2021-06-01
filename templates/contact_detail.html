@@ -11,9 +11,15 @@
   <div class="card-body">
     <h5 class="card-title">{{ contact.first_name }} {{ contact.last_name }}</h5>
     <p class="card-text"><div>Email: {{ contact.email }}</div>
-<div>Manager: {{ contact.user }}</div></p>
+    <div>Address: {{ contact.address_1 }}</div>
+    <div>Address: {{ contact.address_2 }}</div>
+    <div>City: {{ contact.city }}</div>
+    <div>State: {{ contact.state }}</div>
+    <div>Zip: {{ contact.zipcode }}</div>
+    <div>Manager: {{ contact.user }}</div>
+</p>
 
-    <a href="{% url 'contacts:contact-update' contact.pk %}" class="btn btn-primary">Update</a>
+    <a href="{% url 'contacts:contact-update' contact.pk %}" class="btn btn-primary">Edit</a>
 <a href="{% url 'contacts:contact-delete' contact.pk %}" class="btn btn-primary">Delete</a>
 <br />
 

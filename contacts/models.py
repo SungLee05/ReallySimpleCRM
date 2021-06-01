@@ -14,7 +14,7 @@ class Contact(models.Model):
   city = models.CharField(blank=True, null=True, max_length=20)
   state = models.CharField(blank=True, null=True, max_length=20)
   zipcode = models.CharField(blank=True, null=True, max_length=5)
-  profile_photo = models.ImageField(blank=True, null=True)
+  profile_photo = models.ImageField(default='images/default-profile-photo.jpeg', upload_to='images/', blank=True, null=True)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   #foreign key requires on_delete in case relational table is deleted. setting it to cascade to ensure contact list that is associated with a specific user is deleted if user profile no longer exist. can be set to null if contact list needs to exist regardless.
 

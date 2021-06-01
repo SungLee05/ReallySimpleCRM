@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ContactListView, ContactDetailView, ContactCreateView, ContactUpdateView, ContactDeleteView
+from .views import ContactListView, ContactDetailView, ContactCreateView, ContactUpdateView, ContactDeleteView, export_contacts_xls
 
 app_name = "contacts"
 
@@ -9,4 +9,5 @@ urlpatterns = [
   path('<int:pk>/', ContactDetailView.as_view(), name="contact-detail"),
   path('<int:pk>/update/', ContactUpdateView.as_view(), name="contact-update"),
   path('<int:pk>/delete/', ContactDeleteView.as_view(), name="contact-delete"),
+  path('export/excel/', export_contacts_xls, name='contact-export'),
 ]

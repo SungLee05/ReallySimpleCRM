@@ -4,6 +4,10 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Contact, User
 from .forms import ContactForm, ContactModelForm, CustomUserCreationForm
+import xlwt
+import openpyxl
+import pandas as pd
+from sqlalchemy import create_engine
 
 
 class SignupView(generic.CreateView):
@@ -73,3 +77,31 @@ class ContactDeleteView(LoginRequiredMixin, generic.DeleteView):
 
   def get_success_url(self):
     return reverse("contacts:contact-list")
+
+def export_contacts_xls(request):
+  response = HttpResponse(content_type='application/ms-excel')
+  response['Content-Disposition'] = 'attachment; filename="users.xls"'
+
+  wb = xlwt.Workbook(encoding='utf-8')
+  ws = wb.add_sheet("Contact List")
+
+  row_num = 0
+  font_style = xlwt.XFStyle()
+  font_style.font.bold = True
+
+  columns = ['first_name', 'last_name', 'email', 'address_1', 'address_2', 'city', 'state', 'zipcode', 'profile_photo', 'user']
+
+  for col_num in range(len(columns)):
+    ws.write(row_num, col_num, columns[col_num], font_style)
+
+  font_style = xlwt.XFStyle()
+
+  rows = Contact.objects.filter(user=request.user).values_list('first_name', 'last_name', 'email', 'address_1', 'address_2', 'city', 'state', 'zipcode', 'profile_photo', 'user')
+
+  for row in rows:
+    row_num += 1
+    for col_num in range(len(row)):
+      ws.write(row_num, col_num, row[col_num], font_style)
+
+  wb.save(response)
+  return response
