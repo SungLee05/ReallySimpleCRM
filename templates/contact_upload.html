@@ -1,0 +1,29 @@
+{% extends "main.html"%} {% block content %}
+
+<h4>Import Contact</h4>
+<br />
+
+<form action="{% url "contacts:contact-import" %}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<input type="file"
+title="Upload excel file"
+name="excel_file"
+required="required">
+<p>
+<input type="submit"
+value="Upload">
+</form>
+
+<hr>
+
+        {% for row in excel_data %}
+            {% for cell in row %}
+                {{ cell }}
+            {% endfor %}
+            <br>
+        {% endfor %}
+
+<br>
+<a href="{% url 'contacts:contact-list' %}">Back To Contact List</a>
+
+{% endblock content%}

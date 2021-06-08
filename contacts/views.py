@@ -6,8 +6,7 @@ from .models import Contact, User
 from .forms import ContactForm, ContactModelForm, CustomUserCreationForm
 import xlwt
 import openpyxl
-import pandas as pd
-from sqlalchemy import create_engine
+import sqlite3
 
 
 class SignupView(generic.CreateView):
@@ -106,17 +105,30 @@ def export_contacts_xls(request):
   wb.save(response)
   return response
 
-def import_contacts_xls(request):
-  if request.method == "post" and request.FILES['excel_file']:
-    excel_file = request.FILES['excel_file']
-
-    wb = openpyxl.load_workbook(excel_file)
-    active_sheet = wb.active
-    print(active_sheet)
-
-    return render(request, 'contacts:contact-list', {'xls_data': active_sheet})
-
 # step 1 - create a view to handle uploading xls file
 # step 2 - load xls file with openpyxl
 # step 3 - seed db with xls data
 # step 4 - render updated contact list on html
+
+def import_contacts_xls(request):
+  if request.method == "GET":
+    return render(request, 'contact_upload.html', {})
+  else:
+    excel_file = request.FILES['excel_file']
+
+    wb = openpyxl.load_workbook(excel_file)
+    active_sheet = wb.active
+
+    con = sqlite3.connect('db.sqlite3')
+    cur = con.cursor()
+
+    excel_data = list()
+    for row in active_sheet.iter_rows():
+      row_data = list()
+      for cell in row:
+        row_data.append(str(cell.value))
+      excel_data.append(row_data)
+
+  con.close()
+  return render(request, 'contact_upload.html', {'excel_data':excel_data})
+

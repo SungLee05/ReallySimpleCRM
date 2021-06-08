@@ -1,6 +1,4 @@
-{% extends "main.html"%}
-
-{% block content %}
+{% extends "main.html"%} {% block content %}
 <div
   class="row w-full mb-6 py-6 flex justify-between items-center border-b border-gray-2"
 >
@@ -11,38 +9,25 @@
     <a href="{% url 'contacts:contact-create' %}">New Contact</a>
   </div>
   <div>
-    <a href="{% url 'contacts:contact-export'%}">Export</a>
-
-    <form action="{% url "contacts:contact-import" %}" method='post' enctype="multipart/form-data">
-    {% csrf_token %}
-        <input type="file" title="Upload excel file" name="excel_file" style="border: 1px solid black; padding: 5px;" required="required">
-        <button type='submit'>Upload</button>
-    </form>
-
-    {{ contact.xls_data }}
+    <a href="{% url 'contacts:contact-export'%}">Export</a><br />
+    <a href="{% url 'contacts:contact-import'%}">Import</a>
   </div>
 </div>
-<div class="row row-cols-2 row-cols-md-4 g-1">
+<div class="row row-cols-2 row-cols-md-3 g-2">
   {% for contact in contacts %}
 
   <div class="col">
     <div class="card">
-      <img
-        src="{{ contact.profile_photo.url }}"
-        class="card-img-top"
-        alt="profile-photo"
-        style="width: 100%"
-      />
       <div class="card-body">
         <h5 class="card-title">
-          <a href="{% url 'contacts:contact-detail' contact.pk %}">
-            <div>{{ contact.first_name }} {{ contact.last_name }}</div>
+          <a
+            href="{% url 'contacts:contact-detail' contact.pk %}"
+            style="font-size: 0.9rem"
+          >
+            <div>Name: {{ contact.first_name }} {{ contact.last_name }}</div>
+            <div>Email: {{ contact.email }}</div>
           </a>
         </h5>
-        <p class="card-text">
-          This is a longer card with supporting text below as a natural lead-in
-          to additional content. This content is a little bit longer.
-        </p>
       </div>
     </div>
   </div>
