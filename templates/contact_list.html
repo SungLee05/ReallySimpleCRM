@@ -1,4 +1,6 @@
-{% extends "main.html"%} {% block content %} {% load static %}
+{% extends "main.html"%}
+
+{% block content %}
 <div
   class="row w-full mb-6 py-6 flex justify-between items-center border-b border-gray-2"
 >
@@ -10,6 +12,14 @@
   </div>
   <div>
     <a href="{% url 'contacts:contact-export'%}">Export</a>
+
+    <form action="{% url "contacts:contact-import" %}" method='post' enctype="multipart/form-data">
+    {% csrf_token %}
+        <input type="file" title="Upload excel file" name="excel_file" style="border: 1px solid black; padding: 5px;" required="required">
+        <button type='submit'>Upload</button>
+    </form>
+
+    {{ contact.xls_data }}
   </div>
 </div>
 <div class="row row-cols-2 row-cols-md-4 g-1">
@@ -18,7 +28,7 @@
   <div class="col">
     <div class="card">
       <img
-        src="{% static 'images/default-profile-photo.jpeg' %}"
+        src="{{ contact.profile_photo.url }}"
         class="card-img-top"
         alt="profile-photo"
         style="width: 100%"
@@ -39,5 +49,4 @@
 
   {% endfor %}
 </div>
-
 {% endblock content%}

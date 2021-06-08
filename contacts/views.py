@@ -105,3 +105,18 @@ def export_contacts_xls(request):
 
   wb.save(response)
   return response
+
+def import_contacts_xls(request):
+  if request.method == "post" and request.FILES['excel_file']:
+    excel_file = request.FILES['excel_file']
+
+    wb = openpyxl.load_workbook(excel_file)
+    active_sheet = wb.active
+    print(active_sheet)
+
+    return render(request, 'contacts:contact-list', {'xls_data': active_sheet})
+
+# step 1 - create a view to handle uploading xls file
+# step 2 - load xls file with openpyxl
+# step 3 - seed db with xls data
+# step 4 - render updated contact list on html

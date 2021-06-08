@@ -1,9 +1,9 @@
-{% extends "main.html"%} {% block content %} {% load static %}
+{% extends "main.html"%} {% block content %}
 
 <h4>Contact Detail</h4>
 <div class="card" style="width: 18rem;">
         <img
-        src="{% static 'images/default-profile-photo.jpeg' %}"
+        src="{{ contact.profile_photo.url }}"
         class="card-img-top"
         alt="profile-photo"
         style="width: 100%"

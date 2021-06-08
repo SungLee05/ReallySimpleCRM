@@ -3,7 +3,7 @@
 <h1>Really Simple CRM</h1>
 <h4>New Contact</h4>
 <br />
-<form method="post">
+<form method="post" enctype="multipart/form-data">
   {% csrf_token %} {{ form.as_p }} {% comment %} csrf token always required
   whenever post method is called on forms {% endcomment %}
   <button type="submit">Submit</button>
