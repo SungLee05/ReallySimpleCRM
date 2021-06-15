@@ -119,16 +119,11 @@ def import_contacts_xls(request):
     wb = openpyxl.load_workbook(excel_file)
     active_sheet = wb.active
 
-    con = sqlite3.connect('db.sqlite3')
-    cur = con.cursor()
+    current_user = request.user
 
-    excel_data = list()
-    for row in active_sheet.iter_rows():
-      row_data = list()
-      for cell in row:
-        row_data.append(str(cell.value))
-      excel_data.append(row_data)
+    for row in active_sheet.iter_rows(min_row=2):
+      Contact.objects.create(user=current_user, first_name=row[0].value, last_name=row[1].value, email=row[2].value, address_1=row[3].value, address_2=row[4].value, city=row[5].value, state=row[6].value, zipcode=row[7].value)
+      response = 'Upload Successful!'
 
-  con.close()
-  return render(request, 'contact_upload.html', {'excel_data':excel_data})
+  return render(request, 'contact_upload.html', {'success':response})
 

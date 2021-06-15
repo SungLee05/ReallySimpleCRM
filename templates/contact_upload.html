@@ -16,12 +16,7 @@ value="Upload">
 
 <hr>
 
-        {% for row in excel_data %}
-            {% for cell in row %}
-                {{ cell }}
-            {% endfor %}
-            <br>
-        {% endfor %}
+<h4>{{ success }}</h4>
 
 <br>
 <a href="{% url 'contacts:contact-list' %}">Back To Contact List</a>
