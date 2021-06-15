@@ -6,8 +6,6 @@ from .models import Contact, User
 from .forms import ContactForm, ContactModelForm, CustomUserCreationForm
 import xlwt
 import openpyxl
-import sqlite3
-
 
 class SignupView(generic.CreateView):
   template_name = "registration/signup.html"
@@ -120,9 +118,15 @@ def import_contacts_xls(request):
     active_sheet = wb.active
 
     current_user = request.user
+    columnTitles = {}
+    current = 0
 
-    for row in active_sheet.iter_rows(min_row=2):
-      Contact.objects.create(user=current_user, first_name=row[0].value, last_name=row[1].value, email=row[2].value, address_1=row[3].value, address_2=row[4].value, city=row[5].value, state=row[6].value, zipcode=row[7].value)
+    for column in active_sheet.iter_cols(1, active_sheet.max_column):
+      columnTitles[column[0].value] = current
+      current += 1
+
+    for row in active_sheet.iter_rows(min_row=2, values_only=True):
+      Contact.objects.create(user=current_user, first_name=row[columnTitles['first_name']], last_name=row[columnTitles['last_name']], email=row[columnTitles['email']], address_1=row[columnTitles['address_1']], address_2=row[columnTitles['address_2']], city=row[columnTitles['city']], state=row[columnTitles['state']], zipcode=row[columnTitles['zipcode']])
 
     response = 'Upload Successful!'
 
