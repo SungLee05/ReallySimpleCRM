@@ -123,7 +123,8 @@ def import_contacts_xls(request):
 
     for row in active_sheet.iter_rows(min_row=2):
       Contact.objects.create(user=current_user, first_name=row[0].value, last_name=row[1].value, email=row[2].value, address_1=row[3].value, address_2=row[4].value, city=row[5].value, state=row[6].value, zipcode=row[7].value)
-      response = 'Upload Successful!'
+
+    response = 'Upload Successful!'
 
   return render(request, 'contact_upload.html', {'success':response})
 
